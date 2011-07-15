@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PersonalCenterModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="PersonalCenterModelStoreContainer">
+          <EntitySet Name="Records" EntityType="PersonalCenterModel.Store.Records" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="PersonalCenterModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_AccountInfos_Users" Association="PersonalCenterModel.Store.FK_AccountInfos_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Records" EntitySet="Records" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Records">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Type" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Remark" Type="varchar" Nullable="false" MaxLength="1000" />
+          <Property Name="Creator" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="date" Nullable="false" />
+          <Property Name="LastModifyDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Uname" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Skin" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AccountInfos_Users">
+          <End Role="Users" Type="PersonalCenterModel.Store.Users" Multiplicity="1" />
+          <End Role="Records" Type="PersonalCenterModel.Store.Records" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Records">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PersonalCenterModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="PersonalCenterEntities">
+          <EntitySet Name="Users" EntityType="PersonalCenterModel.Users" />
+          <EntitySet Name="Records" EntityType="PersonalCenterModel.Records" />
+          <AssociationSet Name="FK_AccountInfos_Users1" Association="PersonalCenterModel.FK_AccountInfos_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Records" EntitySet="Records" /></AssociationSet></EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Uname" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Records" Relationship="PersonalCenterModel.FK_AccountInfos_Users1" FromRole="Users" ToRole="Records" />
+          <Property Name="Skin" Type="String" Nullable="true" /></EntityType>
+        <EntityType Name="Records">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="Remark" Type="String" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastModifyDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="PersonalCenterModel.FK_AccountInfos_Users1" FromRole="Records" ToRole="Users" /></EntityType>
+        <Association Name="FK_AccountInfos_Users1">
+          <End Type="PersonalCenterModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="PersonalCenterModel.Records" Role="Records" Multiplicity="*" /></Association></Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="PersonalCenterModelStoreContainer" CdmEntityContainer="PersonalCenterEntities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IsTypeOf(PersonalCenterModel.Users)">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Skin" ColumnName="Skin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Uname" ColumnName="Uname" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        <EntitySetMapping Name="Records">
+            <EntityTypeMapping TypeName="IsTypeOf(PersonalCenterModel.Records)">
+              <MappingFragment StoreEntitySet="Records">
+                <ScalarProperty Name="LastModifyDate" ColumnName="LastModifyDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_AccountInfos_Users1" TypeName="PersonalCenterModel.FK_AccountInfos_Users1" StoreEntitySet="Records">
+            <EndProperty Name="Records">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Creator" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="Entities">
+        <EntityTypeShape EntityType="PersonalCenterModel.Users" Width="1.5" PointX="0.75" PointY="0.875" Height="1.959453125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PersonalCenterModel.Records" Width="1.5" PointX="3" PointY="3.875" Height="2.1280729166666674" />
+        <AssociationConnector Association="PersonalCenterModel.FK_AccountInfos_Users1" >
+          <ConnectorPoint PointX="1.5" PointY="3.0030729166666661" />
+          <ConnectorPoint PointX="1.5" PointY="4.9390364583333337" />
+          <ConnectorPoint PointX="3" PointY="4.9390364583333337" /></AssociationConnector></Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
